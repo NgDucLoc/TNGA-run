@@ -10,12 +10,12 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 from pathlib import Path
 
 agent_id = sys.argv[1]
-base_folder = os.path.abspath(os.curdir) + "/TNGA-run"
+base_folder = './'
 try:
-	os.mkdir(base_folder+'/log')
-	os.mkdir(base_folder+'/agent_pool')
-	os.mkdir(base_folder+'/job_pool')
-	os.mkdir(base_folder+'/result_pool')
+	os.mkdir(base_folder+'log')
+	os.mkdir(base_folder+'agent_pool')
+	os.mkdir(base_folder+'job_pool')
+	os.mkdir(base_folder+'result_pool')
 except:
 	pass
 
@@ -102,6 +102,8 @@ if __name__ == '__main__':
 			tf.reset_default_graph()
 			del repeat_loss, g
 			gc.collect()
+
+		time.sleep(1)
 	
 
 
