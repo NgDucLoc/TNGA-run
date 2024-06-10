@@ -28,7 +28,18 @@ formatter = logging.Formatter('%(asctime)s:  %(message)s')
 console.setFormatter(formatter)
 logging.getLogger('').addHandler(console)
 
-def evaluate(tf_graph, sess, indv_scope, adj_matrix, evaluate_repeat, max_iterations, evoluation_goal=None, evoluation_goal_square_norm=None):		
+def evaluate(tf_graph, sess, indv_scope, adj_matrix, evaluate_repeat, max_iterations, evoluation_goal=None, evoluation_goal_square_norm=None):	
+	# Giả sử bạn đã định nghĩa rse_loss và var_list
+	optimizer = tf.optimizers.Adam(0.001)
+
+	@tf.function
+	def optimize_step():
+		with tf.GradientTape() as tape:
+			loss = rse_loss()  # Tính toán loss
+		gradients = tape.gradient(loss, var_list)
+		optimizer.apply_gradients(zip(gradients, var_list))
+		return loss
+		
 	with tf_graph.as_default():
 		with tf.compat.v1.variable_scope(indv_scope):
 			TN = TensorNetwork(adj_matrix)
@@ -37,7 +48,7 @@ def evaluate(tf_graph, sess, indv_scope, adj_matrix, evaluate_repeat, max_iterat
 			goal_square_norm = tf.convert_to_tensor(evoluation_goal_square_norm)
 			rse_loss = tf.reduce_mean(tf.square(output - goal)) / goal_square_norm
 			var_list = tf.compat.v1.get_collection(tf.compat.v1.GraphKeys.GLOBAL_VARIABLES, scope=indv_scope)
-			step = tf.optimizers.Adam(0.001).minimize(rse_loss, var_list=var_list)
+			step = optimize_step()	
 			var_list = tf.compat.v1.get_collection(tf.compat.v1.GraphKeys.GLOBAL_VARIABLES, scope=indv_scope)
 
 		repeat_loss = []
