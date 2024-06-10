@@ -37,7 +37,7 @@ class RealTensor(object):
 			self.identity = identity
 			self.shape = shape
 			self.initializer = initializer
-			if isinstance(self.initializer, Tensor):
+			if isinstance(self.initializer, tf.Tensor):
 				self.tensor = tf.get_variable(name = self.name,	initializer = self.initializer, trainable=trainable)
 			else:
 				self.tensor = tf.get_variable(name = self.name, shape = self.shape,
