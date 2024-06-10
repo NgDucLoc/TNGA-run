@@ -32,7 +32,6 @@ def evaluate(tf_graph, sess, indv_scope, adj_matrix, evaluate_repeat, max_iterat
 	# Giả sử bạn đã định nghĩa rse_loss và var_list
 	optimizer = tf.optimizers.Adam(0.001)
 
-	@tf.function
 	def optimize_step(rse_loss):
 		with tf.GradientTape() as tape:
 			loss = rse_loss  # Tính toán loss
