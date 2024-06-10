@@ -32,7 +32,7 @@ class DummyIndv(object): pass
 
 data = np.load(os.path.normpath(base_folder + '/data.npz'))
 logging.info(data['adj_matrix'])
-np.save(os.path.normpath(base_folder +'data.npy'), data['goal'])
+np.save(os.path.normpath(base_folder +'/data.npy'), data['goal'])
 evoluation_goal = 'data.npy'
 print(data['adj_matrix'])
 
