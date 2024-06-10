@@ -7,12 +7,12 @@ from itertools import product
 from functools import partial
 import inspect
 
-base_folder = './'
+base_folder = os.path.abspath(os.curdir) 
 try:
-	os.mkdir(base_folder+'log')
-	os.mkdir(base_folder+'agent_pool')
-	os.mkdir(base_folder+'job_pool')
-	os.mkdir(base_folder+'result_pool')
+	os.mkdir(base_folder+'/log')
+	os.mkdir(base_folder+'/agent_pool')
+	os.mkdir(base_folder+'/job_pool')
+	os.mkdir(base_folder+'/result_pool')
 except:
 	pass
 
@@ -30,10 +30,14 @@ logging.getLogger('').addHandler(console)
 
 class DummyIndv(object): pass
 
-data = np.load('data.npz')
+
+
+data = np.load(os.path.normpath(base_folder + '/data.npz'))
 logging.info(data['adj_matrix'])
-np.save('data.npy', data['goal'])
+np.save(os.path.normpath(base_folder +'data.npy'), data['goal'])
 evoluation_goal = 'data.npy'
+print(data['adj_matrix'])
+
 
 class Individual(object):
 	def __init__(self, adj_matrix=None, scope=None, **kwargs):
@@ -271,7 +275,7 @@ class Agent(object):
 	def receive(self, indv):
 		indv.deploy(self.sge_job_id)
 		with open(base_folder+'/agent_pool/{}.POOL'.format(self.sge_job_id), 'a') as f:
-			f.write(evoluation_goal)
+			f.write(os.path.normpath(base_folder + evoluation_goal))
 
 	def is_available(self):
 		return True if os.stat(base_folder+'/agent_pool/{}.POOL'.format(self.kwargs['sge_job_id'])).st_size == 0 else False

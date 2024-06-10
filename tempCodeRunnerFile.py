@@ -9,13 +9,14 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 # from overlore import Generation
 from pathlib import Path
 
+
 agent_id = sys.argv[1]
-base_folder = './'
+base_folder = os.path.abspath(os.curdir) 
 try:
-	os.mkdir(base_folder+'log')
-	os.mkdir(base_folder+'agent_pool')
-	os.mkdir(base_folder+'job_pool')
-	os.mkdir(base_folder+'result_pool')
+	os.mkdir(base_folder+'\log')
+	os.mkdir(base_folder+'/agent_pool')
+	os.mkdir(base_folder+'\job_pool')
+	os.mkdir(base_folder+'/result_pool')
 except:
 	pass
 
