@@ -57,7 +57,7 @@ class Individual(object):
 
 	def deploy(self, sge_job_id):
 		try:
-			path = base_folder+'/job_pool/{}.npz'.format(sge_job_id)
+			path = base_folder+'job_pool/{}.npz'.format(sge_job_id)
 			np.savez(path, adj_matrix=self.adj_matrix, scope=self.scope, repeat=self.repeat, iters=self.iters)
 			self.sge_job_id = sge_job_id
 			return True
@@ -67,7 +67,7 @@ class Individual(object):
 	def collect(self, fake_loss=False):
 		if not fake_loss:
 			try:
-				path = base_folder+'/result_pool/{}.npz'.format(self.scope.replace('/', '_'))
+				path = base_folder+'result_pool/{}.npz'.format(self.scope.replace('/', '_'))
 				result = np.load(path)
 				self.repeat_loss = result['repeat_loss']
 				os.remove(path)
@@ -270,11 +270,11 @@ class Agent(object):
 
 	def receive(self, indv):
 		indv.deploy(self.sge_job_id)
-		with open(base_folder+'/agent_pool/{}.POOL'.format(self.sge_job_id), 'a') as f:
+		with open(base_folder+'agent_pool/{}.POOL'.format(self.sge_job_id), 'a') as f:
 			f.write(evoluation_goal)
 
 	def is_available(self):
-		return True if os.stat(base_folder+'/agent_pool/{}.POOL'.format(self.kwargs['sge_job_id'])).st_size == 0 else False
+		return True if os.stat(base_folder+'agent_pool/{}.POOL'.format(self.kwargs['sge_job_id'])).st_size == 0 else False
 
 class Overlord(object):
 	def __init__(self, max_generation=100, **kwargs):
@@ -301,7 +301,7 @@ class Overlord(object):
 
 	def __check_available_agent__(self):
 		self.available_agents.clear()
-		agents = glob.glob(base_folder+'/agent_pool/*.POOL')
+		agents = glob.glob(base_folder+'agent_pool/*.POOL')
 		agents_id = [ a.split('/')[-1][:-5] for a in agents ]
 
 		for aid in list(self.known_agents.keys()):
