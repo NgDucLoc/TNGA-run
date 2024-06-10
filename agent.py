@@ -10,7 +10,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 from pathlib import Path
 
 agent_id = sys.argv[1]
-base_folder = os.path.abspath(os.curdir) 
+base_folder = os.path.abspath(os.curdir) + "/TNGA-run"
 try:
 	os.mkdir(base_folder+'/log')
 	os.mkdir(base_folder+'/agent_pool')

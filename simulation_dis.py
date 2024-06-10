@@ -7,7 +7,7 @@ from itertools import product
 from functools import partial
 import inspect
 
-base_folder = os.path.abspath(os.curdir) 
+base_folder = os.path.abspath(os.curdir) + "/TNGA-run"
 try:
 	os.mkdir(base_folder+'/log')
 	os.mkdir(base_folder+'/agent_pool')
