@@ -82,7 +82,7 @@ if __name__ == '__main__':
 			logging.info('Receiving individual {} for {}x{} ...'.format(scope, repeat, iters))
 
 			g = tf.Graph()
-			sess = tf.Session(graph=g)
+			sess = tf.compat.v1.Session(graph=g)
 			try:
 				repeat_loss = evaluate(tf_graph=g, sess=sess, indv_scope=scope, adj_matrix=adj_matrix, evaluate_repeat=repeat, max_iterations=iters,
 																evoluation_goal=evoluation_goal, evoluation_goal_square_norm=evoluation_goal_square_norm)

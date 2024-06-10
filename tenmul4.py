@@ -487,7 +487,7 @@ if __name__ == '__main__':
 
 	# 	print (diff)
 
-	sess = tf.Session()
+	sess = tf.compat.v1.Session()
 	adjm = np.array([[0,2,2,2,2,0,0,0,0],
 									 [0,11,2,2,2,2,2,2,0],
 									 [0,0,12,2,2,0,0,2,0],
