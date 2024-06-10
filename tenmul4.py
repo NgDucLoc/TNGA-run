@@ -13,7 +13,8 @@ np.set_printoptions(precision=4)
 import operator
 from functools import reduce
 # from scipy.io import loadmat
-from tensorflow.python.framework.ops import Tensor
+# from tensorflow.python.framework.ops import Tensor
+from tensorflow.python.framework import tensor as Tensor
 
 def prod(iterable):
 	return reduce(operator.mul, iterable, 1)
