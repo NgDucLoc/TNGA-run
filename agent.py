@@ -102,8 +102,6 @@ if __name__ == '__main__':
 			tf.reset_default_graph()
 			del repeat_loss, g
 			gc.collect()
-
-		time.sleep(1)
 	
 
 

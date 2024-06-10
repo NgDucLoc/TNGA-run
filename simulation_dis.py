@@ -30,8 +30,6 @@ logging.getLogger('').addHandler(console)
 
 class DummyIndv(object): pass
 
-
-
 data = np.load(os.path.normpath(base_folder + '/data.npz'))
 logging.info(data['adj_matrix'])
 np.save(os.path.normpath(base_folder +'data.npy'), data['goal'])
