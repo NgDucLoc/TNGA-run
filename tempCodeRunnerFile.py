@@ -33,9 +33,9 @@ def evaluate(tf_graph, sess, indv_scope, adj_matrix, evaluate_repeat, max_iterat
 	optimizer = tf.optimizers.Adam(0.001)
 
 	@tf.function
-	def optimize_step():
+	def optimize_step(rse_loss):
 		with tf.GradientTape() as tape:
-			loss = rse_loss()  # Tính toán loss
+			loss = rse_loss  # Tính toán loss
 		gradients = tape.gradient(loss, var_list)
 		optimizer.apply_gradients(zip(gradients, var_list))
 		return loss
