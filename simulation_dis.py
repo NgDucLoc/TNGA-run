@@ -34,8 +34,6 @@ data = np.load('data.npz')
 logging.info(data['adj_matrix'])
 np.save('data.npy', data['goal'])
 evoluation_goal = 'data.npy'
-print("fields:", data.files)
-print("data_goal:",data['goal'])
 class Individual(object):
 	def __init__(self, adj_matrix=None, scope=None, **kwargs):
 		super(Individual, self).__init__()
