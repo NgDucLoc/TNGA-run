@@ -79,6 +79,8 @@ if __name__ == '__main__':
 			repeat = indv['repeat']
 			iters = indv['iters']
 
+			print("Nguyen Duc Loc",scope, adj_matrix, repeat, iters)
+
 			logging.info('Receiving individual {} for {}x{} ...'.format(scope, repeat, iters))
 
 			g = tf.Graph()
