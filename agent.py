@@ -28,36 +28,38 @@ formatter = logging.Formatter('%(asctime)s:  %(message)s')
 console.setFormatter(formatter)
 logging.getLogger('').addHandler(console)
 
-def evaluate(tf_graph, sess, indv_scope, adj_matrix, evaluate_repeat, max_iterations, evoluation_goal=None, evoluation_goal_square_norm=None):	
-	# Giả sử bạn đã định nghĩa rse_loss và var_list
-	optimizer = tf.optimizers.Adam(0.001)
+def evaluate(tf_graph, indv_scope, adj_matrix, evaluate_repeat, max_iterations, evoluation_goal=None, evoluation_goal_square_norm=None):
+    with tf_graph.as_default():
+        with tf.variable_scope(indv_scope):
+            TN = TensorNetwork(adj_matrix)
+            output = TN.reduction(False)
+            goal = tf.convert_to_tensor(evoluation_goal)
+            goal_square_norm = tf.convert_to_tensor(evoluation_goal_square_norm)
+            rse_loss = lambda: tf.reduce_mean(tf.square(output - goal)) / goal_square_norm
 
-	def optimize_step(rse_loss):
-		with tf.GradientTape() as tape:
-			loss = rse_loss  # Tính toán loss
-		gradients = tape.gradient(loss, var_list)
-		optimizer.apply_gradients(zip(gradients, var_list))
-		return loss
+            # Danh sách các biến cần tối ưu hóa
+            var_list = tf.compat.v1.get_collection(tf.compat.v1.GraphKeys.GLOBAL_VARIABLES, scope=indv_scope)
+            
+            # Tạo optimizer
+            optimizer = tf.optimizers.Adam(0.001)
+        
+        @tf.function
+        def optimize_step():
+            with tf.GradientTape() as tape:
+                loss = rse_loss()
+            gradients = tape.gradient(loss, var_list)
+            optimizer.apply_gradients(zip(gradients, var_list))
+            return loss
 
-	with tf_graph.as_default():
-		with tf.compat.v1.variable_scope(indv_scope):
-			TN = TensorNetwork(adj_matrix)
-			output = TN.reduction(False)
-			goal = tf.convert_to_tensor(evoluation_goal)
-			goal_square_norm = tf.convert_to_tensor(evoluation_goal_square_norm)
-			rse_loss = tf.reduce_mean(tf.square(output - goal)) / goal_square_norm
-			var_list = tf.compat.v1.get_collection(tf.compat.v1.GraphKeys.GLOBAL_VARIABLES, scope=indv_scope)
-			step = optimize_step(rse_loss)
-			var_list = tf.compat.v1.get_collection(tf.compat.v1.GraphKeys.GLOBAL_VARIABLES, scope=indv_scope)
+        repeat_loss = []
+        for r in range(evaluate_repeat):
+            for var in var_list:
+                var.assign(tf.zeros_like(var))  # Khởi tạo lại các biến
+            for i in range(max_iterations):
+                loss_value = optimize_step()
+            repeat_loss.append(loss_value.numpy())
 
-		repeat_loss = []
-		for r in range(evaluate_repeat):
-			sess.run(tf.variables_initializer(var_list))
-			for i in range(max_iterations): 
-				sess.run(step)
-			repeat_loss.append(sess.run(rse_loss))
-
-	return repeat_loss
+    return repeat_loss
 
 def check_and_load(agent_id):
 	file_name = base_folder+'/agent_pool/{}.POOL'.format(agent_id)
@@ -94,7 +96,7 @@ if __name__ == '__main__':
 			g = tf.Graph()
 			sess = tf.compat.v1.Session(graph=g)
 			try:
-				repeat_loss = evaluate(tf_graph=g, sess=sess, indv_scope=scope, adj_matrix=adj_matrix, evaluate_repeat=repeat, max_iterations=iters,
+				repeat_loss = evaluate(tf_graph=g, indv_scope=scope, adj_matrix=adj_matrix, evaluate_repeat=repeat, max_iterations=iters,
 																evoluation_goal=evoluation_goal, evoluation_goal_square_norm=evoluation_goal_square_norm)
 				logging.info('Reporting result {}.'.format(repeat_loss))
 				np.savez(base_folder+'/result_pool/{}.npz'.format(scope.replace('/', '_')),
