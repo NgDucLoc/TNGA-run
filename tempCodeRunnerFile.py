@@ -99,7 +99,7 @@ if __name__ == '__main__':
 				raise e
 
 			sess.close()
-			tf.reset_default_graph()
+			tf.compat.v1.reset_default_graph()
 			del repeat_loss, g
 			gc.collect()
 
