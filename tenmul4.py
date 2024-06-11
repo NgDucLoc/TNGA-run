@@ -13,8 +13,8 @@ np.set_printoptions(precision=4)
 import operator
 from functools import reduce
 # from scipy.io import loadmat
-# from tensorflow.python.framework.ops import Tensor
-from tensorflow.python.framework import tensor as Tensor
+from tensorflow.python.framework.ops import Tensor
+
 def prod(iterable):
 	return reduce(operator.mul, iterable, 1)
 
@@ -37,10 +37,10 @@ class RealTensor(object):
 			self.identity = identity
 			self.shape = shape
 			self.initializer = initializer
-			if isinstance(self.initializer, tf.Tensor):
-				self.tensor = tf.compat.v1.get_variable(name = self.name,	initializer = self.initializer, trainable=trainable)
+			if isinstance(self.initializer, Tensor):
+				self.tensor = tf.get_variable(name = self.name,	initializer = self.initializer, trainable=trainable)
 			else:
-				self.tensor = tf.compat.v1.get_variable(name = self.name, shape = self.shape,
+				self.tensor = tf.get_variable(name = self.name, shape = self.shape,
 																			initializer = self.initializer, trainable=trainable)
 
 	def __call__(self):
@@ -97,7 +97,7 @@ class TensorNetwork(object):
 		if initializer_list is None:
 			initializer_list = [tf.random_normal_initializer(mean=0.0, stddev=1.0)] * self.dim
 
-		with tf.compat.v1.variable_scope(self.scope):
+		with tf.variable_scope(self.scope):
 			self.cores = [ RealTensor(name=self.name_list[t], shape=list(filter((0).__ne__, adj_matrix[t].tolist())),
 										trainable=trainable_list[t], initializer=initializer_list[t]) for t in range(self.dim) ]
 
@@ -114,7 +114,7 @@ class TensorNetwork(object):
 		return __tf_matmul__(self.reduction(), N_b.reduction())
 
 	def giff_cores(self):
-		return tf.compat.v1.get_collection(tf.compat.v1.GraphKeys.GLOBAL_VARIABLES, scope=self.scope)
+		return tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, scope=self.scope)
 
 	def __outter_product__(self):
 		tar = tf.reshape(self.cores[1](), [1, -1])
@@ -298,7 +298,7 @@ class TensorNetwork(object):
 		return tf.identity(output, name='output')
 
 	def opt_opeartions(self, opt, loss):
-		return opt.minimize(loss, var_list=tf.compat.v1.get_collection(tf.compat.v1.GraphKeys.TRAINABLE_VARIABLES))
+		return opt.minimize(loss, var_list=tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES))
 
 if __name__ == '__main__':
 
@@ -487,7 +487,7 @@ if __name__ == '__main__':
 
 	# 	print (diff)
 
-	sess = tf.compat.v1.Session()
+	sess = tf.Session()
 	adjm = np.array([[0,2,2,2,2,0,0,0,0],
 									 [0,11,2,2,2,2,2,2,0],
 									 [0,0,12,2,2,0,0,2,0],
