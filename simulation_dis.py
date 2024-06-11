@@ -381,7 +381,7 @@ if __name__ == '__main__':
 													# ISLAND PROPERTIES
 													N_islands=1, population=[int(sys.argv[2])], 
 													# INVIDUAL PROPERTIES
-													size=4, rank=2, out=2, init_sparsity=-0.00001,
+													size=8, rank=4, out=4, init_sparsity=-0.00001,
 													# EVALUATION PROPERTIES
 													evaluate_repeat=2, max_iterations=10000,
 													fitness_func=[ lambda s,l: s+l*50],
