@@ -1,10 +1,11 @@
 import numpy as np, os, sys, re, glob, subprocess, math, unittest, time, shutil, logging, gc, psutil
 np.set_printoptions(precision=2)
-from tenmul4 import TensorNetwork
+from tenmul4 import TensorNetwork, show_image
 from random import shuffle, choice
 from itertools import product
 from functools import partial
 import inspect, tensorflow as tf
+
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' 
 # from overlore import Generation
 from pathlib import Path
@@ -33,6 +34,7 @@ def evaluate(tf_graph, sess, indv_scope, adj_matrix, evaluate_repeat, max_iterat
 		with tf.compat.v1.variable_scope(indv_scope):
 			TN = TensorNetwork(adj_matrix)
 			output = TN.reduction(False)
+			show_image(output)
 			goal = tf.convert_to_tensor(evoluation_goal)
 			goal_square_norm = tf.convert_to_tensor(evoluation_goal_square_norm)
 			rse_loss = tf.reduce_mean(tf.square(output - goal)) / goal_square_norm

@@ -16,6 +16,17 @@ from functools import reduce
 # from tensorflow.python.framework.ops import Tensor
 from tensorflow.python.framework import tensor as Tensor
 
+import matplotlib.pyplot as plt
+
+def show_image(tensor_array):
+	reshaped_tensor = tf.reshape(tensor_array, [256,256])
+	# Chuyển tensor thành mảng NumPy
+	image_array = np.array(reshaped_tensor.numpy(), dtype=np.uint8)
+
+	# Hiển thị hình ảnh bằng matplotlib
+	plt.imshow(image_array)
+	plt.axis('off')  # Tắt trục
+	plt.show()
 def prod(iterable):
 	return reduce(operator.mul, iterable, 1)
 
