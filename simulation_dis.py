@@ -377,7 +377,7 @@ def score_summary(obj):
 
 if __name__ == '__main__':
 	pipeline = Overlord(		# GENERATION PROPERTIES
-													max_generation=30, generation=Generation, random_init=True,
+													max_generation=15, generation=Generation, random_init=True,
 													# ISLAND PROPERTIES
 													N_islands=1, population=[int(sys.argv[2])], 
 													# INVIDUAL PROPERTIES
