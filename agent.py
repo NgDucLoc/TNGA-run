@@ -34,7 +34,6 @@ def evaluate(tf_graph, sess, indv_scope, adj_matrix, evaluate_repeat, max_iterat
 		with tf.compat.v1.variable_scope(indv_scope):
 			TN = TensorNetwork(adj_matrix)
 			output = TN.reduction(False)
-			print("123",tf.convert_to_tensor(output))
 			goal = tf.convert_to_tensor(evoluation_goal)
 			goal_square_norm = tf.convert_to_tensor(evoluation_goal_square_norm)
 			rse_loss = tf.reduce_mean(tf.square(output - goal)) / goal_square_norm
@@ -72,6 +71,7 @@ if __name__ == '__main__':
 
 	while True:
 		flag, evoluation_goal = check_and_load(agent_id)
+		show_image(tf.convert_to_tensor(evoluation_goal))
 		if flag:
 			evoluation_goal_square_norm=np.mean(np.square(evoluation_goal))
 			indv = np.load(base_folder+'job_pool/{}.npz'.format(agent_id))
