@@ -30,7 +30,7 @@ logging.getLogger('').addHandler(console)
 
 def evaluate(tf_graph, sess, indv_scope, adj_matrix, evaluate_repeat, max_iterations, evoluation_goal=None, evoluation_goal_square_norm=None):		
 	with tf_graph.as_default():
-		with tf.variable_scope(indv_scope):
+		with tf.compat.v1.variable_scope(indv_scope):
 			TN = TensorNetwork(adj_matrix)
 			output = TN.reduction(False)
 			goal = tf.convert_to_tensor(evoluation_goal)

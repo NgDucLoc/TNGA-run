@@ -98,7 +98,7 @@ class TensorNetwork(object):
 		if initializer_list is None:
 			initializer_list = [tf.random_normal_initializer(mean=0.0, stddev=1.0)] * self.dim
 
-		with tf.variable_scope(self.scope):
+		with tf.compat.v1.variable_scope(self.scope):
 			self.cores = [ RealTensor(name=self.name_list[t], shape=list(filter((0).__ne__, adj_matrix[t].tolist())),
 										trainable=trainable_list[t], initializer=initializer_list[t]) for t in range(self.dim) ]
 
