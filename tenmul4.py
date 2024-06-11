@@ -115,7 +115,7 @@ class TensorNetwork(object):
 		return __tf_matmul__(self.reduction(), N_b.reduction())
 
 	def giff_cores(self):
-		return tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, scope=self.scope)
+		return tf.get_collection(tf.compat.v1.GraphKeys.GLOBAL_VARIABLES, scope=self.scope)
 
 	def __outter_product__(self):
 		tar = tf.reshape(self.cores[1](), [1, -1])
@@ -299,7 +299,7 @@ class TensorNetwork(object):
 		return tf.identity(output, name='output')
 
 	def opt_opeartions(self, opt, loss):
-		return opt.minimize(loss, var_list=tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES))
+		return opt.minimize(loss, var_list=tf.get_collection(tf.compat.v1.GraphKeys.TRAINABLE_VARIABLES))
 
 if __name__ == '__main__':
 

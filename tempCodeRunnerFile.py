@@ -36,9 +36,9 @@ def evaluate(tf_graph, sess, indv_scope, adj_matrix, evaluate_repeat, max_iterat
 			goal = tf.convert_to_tensor(evoluation_goal)
 			goal_square_norm = tf.convert_to_tensor(evoluation_goal_square_norm)
 			rse_loss = tf.reduce_mean(tf.square(output - goal)) / goal_square_norm
-			var_list = tf.compat.v1.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, scope=indv_scope)
+			var_list = tf.compat.v1.get_collection(tf.compat.v1.GraphKeys.GLOBAL_VARIABLES, scope=indv_scope)
 			step = tf.compat.v1.train.AdamOptimizer(0.001).minimize(rse_loss, var_list=var_list)
-			var_list = tf.compat.v1.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, scope=indv_scope)
+			var_list = tf.compat.v1.get_collection(tf.compat.v1.GraphKeys.GLOBAL_VARIABLES, scope=indv_scope)
 
 		repeat_loss = []
 		for r in range(evaluate_repeat):
