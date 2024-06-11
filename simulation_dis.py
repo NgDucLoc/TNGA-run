@@ -31,7 +31,7 @@ logging.getLogger('').addHandler(console)
 class DummyIndv(object): pass
 
 data = np.load('data.npz')
-logging.info(data['adj_matrix'])
+# logging.info(data['adj_matrix'])
 np.save('data.npy', data['goal'])
 evoluation_goal = 'data.npy'
 class Individual(object):
