@@ -13,7 +13,8 @@ np.set_printoptions(precision=4)
 import operator
 from functools import reduce
 # from scipy.io import loadmat
-from tensorflow.python.framework.ops import Tensor
+# from tensorflow.python.framework.ops import Tensor
+
 
 def prod(iterable):
 	return reduce(operator.mul, iterable, 1)
@@ -487,7 +488,7 @@ if __name__ == '__main__':
 
 	# 	print (diff)
 
-	sess = tf.Session()
+	sess = tf.compat.v1.Session()
 	adjm = np.array([[0,2,2,2,2,0,0,0,0],
 									 [0,11,2,2,2,2,2,2,0],
 									 [0,0,12,2,2,0,0,2,0],

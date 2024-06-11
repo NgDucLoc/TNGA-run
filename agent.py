@@ -36,13 +36,13 @@ def evaluate(tf_graph, sess, indv_scope, adj_matrix, evaluate_repeat, max_iterat
 			goal = tf.convert_to_tensor(evoluation_goal)
 			goal_square_norm = tf.convert_to_tensor(evoluation_goal_square_norm)
 			rse_loss = tf.reduce_mean(tf.square(output - goal)) / goal_square_norm
-			var_list = tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, scope=indv_scope)
-			step = tf.train.AdamOptimizer(0.001).minimize(rse_loss, var_list=var_list)
-			var_list = tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, scope=indv_scope)
+			var_list = tf.compat.v1.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, scope=indv_scope)
+			step = tf.compat.v1.train.AdamOptimizer(0.001).minimize(rse_loss, var_list=var_list)
+			var_list = tf.compat.v1.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, scope=indv_scope)
 
 		repeat_loss = []
 		for r in range(evaluate_repeat):
-			sess.run(tf.variables_initializer(var_list))
+			sess.run(tf.compat.v1.variables_initializer(var_list))
 			for i in range(max_iterations): 
 				sess.run(step)
 			repeat_loss.append(sess.run(rse_loss))
@@ -82,7 +82,7 @@ if __name__ == '__main__':
 			logging.info('Receiving individual {} for {}x{} ...'.format(scope, repeat, iters))
 
 			g = tf.Graph()
-			sess = tf.Session(graph=g)
+			sess = tf.compat.v1.Session(graph=g)
 			try:
 				repeat_loss = evaluate(tf_graph=g, sess=sess, indv_scope=scope, adj_matrix=adj_matrix, evaluate_repeat=repeat, max_iterations=iters,
 																evoluation_goal=evoluation_goal, evoluation_goal_square_norm=evoluation_goal_square_norm)
