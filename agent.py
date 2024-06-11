@@ -34,7 +34,7 @@ def evaluate(tf_graph, sess, indv_scope, adj_matrix, evaluate_repeat, max_iterat
 		with tf.compat.v1.variable_scope(indv_scope):
 			TN = TensorNetwork(adj_matrix)
 			output = TN.reduction(False)
-			print(output)
+			print("123",tf.convert_to_tensor(output))
 			goal = tf.convert_to_tensor(evoluation_goal)
 			goal_square_norm = tf.convert_to_tensor(evoluation_goal_square_norm)
 			rse_loss = tf.reduce_mean(tf.square(output - goal)) / goal_square_norm
