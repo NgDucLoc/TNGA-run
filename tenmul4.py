@@ -14,7 +14,7 @@ import operator
 from functools import reduce
 # from scipy.io import loadmat
 # from tensorflow.python.framework.ops import Tensor
-
+from tensorflow.python.framework import tensor as Tensor
 
 def prod(iterable):
 	return reduce(operator.mul, iterable, 1)
@@ -38,7 +38,7 @@ class RealTensor(object):
 			self.identity = identity
 			self.shape = shape
 			self.initializer = initializer
-			if isinstance(self.initializer, Tensor):
+			if isinstance(self.initializer, tf.Tensor):
 				self.tensor = tf.get_variable(name = self.name,	initializer = self.initializer, trainable=trainable)
 			else:
 				self.tensor = tf.get_variable(name = self.name, shape = self.shape,
