@@ -56,7 +56,7 @@ def check_and_load(agent_id):
 	else:
 		with open(file_name, 'r') as f:
 			goal_name = f.readline()
-			evoluation_goal = np.load(goal_name).astype(np.float32)
+			evoluation_goal = np.load(goal_name)['evoluation_goal'].astype(np.float32)
 		return True, evoluation_goal
 
 def memory():
