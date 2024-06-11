@@ -5,6 +5,7 @@ from random import shuffle, choice
 from itertools import product
 from functools import partial
 import inspect, tensorflow as tf
+import tf_keras
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' 
 # from overlore import Generation
 from pathlib import Path
@@ -41,7 +42,7 @@ def evaluate(tf_graph, indv_scope, adj_matrix, evaluate_repeat, max_iterations, 
             var_list = tf.compat.v1.get_collection(tf.compat.v1.GraphKeys.GLOBAL_VARIABLES, scope=indv_scope)
             
             # Tạo optimizer
-            optimizer = tf.optimizers.Adam(0.001)
+            optimizer = tf_keras.optimizers.Adam(0.001)
         
         @tf.function
         def optimize_step():
