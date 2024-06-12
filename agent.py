@@ -85,7 +85,9 @@ if __name__ == '__main__':
 			iters = indv['iters']
 
 			logging.info('Receiving individual {} for {}x{} ...'.format(scope, repeat, iters))
-
+			TN = TensorNetwork(adj_matrix)
+			output = TN.reduction(False)
+			print("output:", output)
 			g = tf.Graph()
 			sess = tf.compat.v1.Session(graph=g)
 			try:

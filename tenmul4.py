@@ -308,7 +308,6 @@ class TensorNetwork(object):
 
 		output = tf.squeeze(output)
 
-		show_image(output)
 		return tf.identity(output, name='output')
 
 	def opt_opeartions(self, opt, loss):
