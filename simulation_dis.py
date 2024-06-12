@@ -241,7 +241,7 @@ class Generation(object):
 	def distribute_indv(self, agent):
 		if self.indv_to_distribute:
 			indv = self.indv_to_distribute.pop(0)
-			if np.log10(indv.sparsity)<1.0:
+			if np.log10(indv.sparsity)<1.0 and indv.sparsityB < 21:
 				agent.receive(indv)
 				self.indv_to_collect.append(indv)
 				logging.info('Assigned individual {} to agent {}.'.format(indv.scope, agent.sge_job_id))

@@ -86,10 +86,7 @@ if __name__ == '__main__':
 
 			logging.info('Receiving individual {} for {}x{} ...'.format(scope, repeat, iters))
 
-			print("adj_matrix output:", adj_matrix)
-			TN = TensorNetwork(adj_matrix)
-			output = TN.reduction(False)
-			show_image(output)
+			
 
 			g = tf.Graph()
 			sess = tf.compat.v1.Session(graph=g)

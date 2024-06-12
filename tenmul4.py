@@ -311,7 +311,7 @@ class TensorNetwork(object):
 		return tf.identity(output, name='output')
 
 	def opt_opeartions(self, opt, loss):
-		return opt.minimize(loss, var_list=tf.get_collection(tf.compat.v1.GraphKeys.TRAINABLE_VARIABLES))
+		return opt.minimize(loss, var_list=tf.compat.v1.get_collection(tf.compat.v1.GraphKeys.TRAINABLE_VARIABLES))
 
 if __name__ == '__main__':
 
