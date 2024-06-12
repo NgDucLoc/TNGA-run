@@ -514,7 +514,8 @@ if __name__ == '__main__':
 
 	TN = TensorNetwork(adjm)
 	ot = TN.reduction(False)
-	sess.run(tf.global_variables_initializer())
+	print(ot.shape)
+	sess.run(tf.compat.v1.global_variables_initializer())
 	sess.run(ot)
 	# opt = tf.train.AdamOptimizer(0.001)
 	# # opt = tf.train.GradientDescentOptimizer(0.5)

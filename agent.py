@@ -71,10 +71,10 @@ if __name__ == '__main__':
 
 	while True:
 		flag, evoluation_goal = check_and_load(agent_id)
-		try:
-			show_image(tf.conver_to_tensor(evoluation_goal))
-		except:
-			print('donot show')
+		# try:
+		# 	show_image(tf.conver_to_tensor(evoluation_goal))
+		# except:
+		# 	print('donot show')
 		if flag:
 			evoluation_goal_square_norm=np.mean(np.square(evoluation_goal))
 			indv = np.load(base_folder+'job_pool/{}.npz'.format(agent_id))
@@ -85,9 +85,8 @@ if __name__ == '__main__':
 			iters = indv['iters']
 
 			logging.info('Receiving individual {} for {}x{} ...'.format(scope, repeat, iters))
-			TN = TensorNetwork(adj_matrix)
-			output = TN.reduction(False)
-			print("output:", output)
+
+			print("adj_matrix output:", adj_matrix)
 			g = tf.Graph()
 			sess = tf.compat.v1.Session(graph=g)
 			try:
