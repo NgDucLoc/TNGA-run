@@ -21,7 +21,7 @@ import matplotlib.pyplot as plt
 def show_image(tensor_array):
 	reshaped_tensor = tf.reshape(tensor_array, (256,256))
 	# Chuyển tensor thành mảng NumPy
-	image_array = reshaped_tensor.numpy()
+	image_array = reshaped_tensor.numpy().astype(np.uint8)
 
 	# Hiển thị hình ảnh bằng matplotlib
 	plt.imshow(image_array, cmap='gray')  # cmap='gray' dùng để hiển thị ảnh xám, bỏ nếu bạn muốn ảnh màu
