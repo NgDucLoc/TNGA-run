@@ -72,6 +72,10 @@ if __name__ == '__main__':
 	while True:
 		flag, evoluation_goal = check_and_load(agent_id)
 		print(evoluation_goal)
+		try:
+			show_image(tf.conver_to_tensor(evoluation_goal))
+		except:
+			print('donot show')
 		if flag:
 			evoluation_goal_square_norm=np.mean(np.square(evoluation_goal))
 			indv = np.load(base_folder+'job_pool/{}.npz'.format(agent_id))
