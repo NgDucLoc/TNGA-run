@@ -19,7 +19,7 @@ from tensorflow.python.framework import tensor as Tensor
 import matplotlib.pyplot as plt
 
 def show_image(tensor_array):
-	reshaped_tensor = tf.reshape(tensor_array, [256,256])
+	reshaped_tensor = tf.reshape(tensor_array, (256,256))
 	# Chuyển tensor thành mảng NumPy
 	image_array = reshaped_tensor.numpy()
 
@@ -307,6 +307,8 @@ class TensorNetwork(object):
 		output = tf.transpose(output, output_trans)
 
 		output = tf.squeeze(output)
+
+		show_image(output)
 		return tf.identity(output, name='output')
 
 	def opt_opeartions(self, opt, loss):
